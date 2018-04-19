@@ -31,7 +31,6 @@
 from THSTrader.THSTrader import THSTrader
 
 
-
 if __name__ == "__main__":
     trader = THSTrader(r"C:\同花顺软件\同花顺\xiadan.exe")    # 连接客户端
 

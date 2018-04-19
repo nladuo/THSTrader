@@ -112,8 +112,11 @@ class THSTrader:
         x = 50
         y = 30 + 16 * row
         self.app.top_window().window(control_id=0x417, class_name='CVirtualGridCtrl').double_click(coords=(x, y))
+        time.sleep(1)
         self.app.top_window().window(control_id=0x6, class_name='Button').click()  # 确定撤单
+        time.sleep(1)
         result = self.app.top_window().window(control_id=0x3EC, class_name='Static').window_text()
+        time.sleep(1)
         self.app.top_window().window(control_id=0x2, class_name='Button').click()  # 确定撤单
         return self.__parse_result(result)
 
