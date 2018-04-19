@@ -54,7 +54,7 @@ if __name__ == "__main__":
 trader.get_balance()
 ```
 返回：
-``` json
+``` 
 {
 	'资金余额': 198577.0,
 	'可用金额': 197264.69,
@@ -68,9 +68,8 @@ trader.get_balance()
 trader.get_balance()
 ```
 返回：
-``` json
+``` 
 [{
-	'明细': '',
 	'证券代码': 2024,
 	'证券名称': '苏宁易购',
 	'股票余额': 100,
@@ -121,7 +120,7 @@ trader.buy(stock_no="162411", amount=100, price=0.541)
 trader.sell(stock_no="162411", amount=100, price=0.62)
 ```
 返回：
-``` json
+``` 
 {
 	'success': True,
 	'msg': '您的卖出委托已成功提交，合同编号：873679996。',
@@ -135,7 +134,7 @@ trader.sell(stock_no="162411", amount=100, price=0.62)
 trader.cancel_entrust(entrust_no="873674677")
 ```
 返回：
-``` json
+``` 
 {
 	'success': True,
 	'msg': '您的撤单委托已成功提交，合同编号：873674677。',
