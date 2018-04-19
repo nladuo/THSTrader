@@ -1,1 +1,4 @@
 pywinauto
+numpy
+pandas
+scipy
