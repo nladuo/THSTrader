@@ -27,7 +27,7 @@
 **注意：使用过程中请保证下单程序处于可视状态，不要最小化同花顺客户端。**
 
 ### 示例代码
-```
+``` python
 from THSTrader.THSTrader import THSTrader
 
 
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     result = trader.buy(stock_no="162411", amount=100, price=0.541) # 买入股票
     print(result)
 
-    if result["success"] == True:						   # 如果买入下单成功，尝试撤单
+    if result["success"] == True:	 # 如果买入下单成功，尝试撤单
         print("撤单测试--->", end="")
         print(trader.cancel_entrust(entrust_no=result["entrust_no"]))
 ```
