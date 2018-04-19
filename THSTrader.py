@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 
 import pywinauto
 from pywinauto import clipboard
 import pandas as pd
 import io
-from const import BALANCE_CONTROL_ID_GROUP
+from .const import BALANCE_CONTROL_ID_GROUP
 import time
 
 
