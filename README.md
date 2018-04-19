@@ -107,7 +107,7 @@ trader.get_balance()
 trader.buy(stock_no="162411", amount=100, price=0.541)
 ```
 返回：
-``` json
+``` 
 {
 	'success': True,
 	'msg': '您的买入委托已成功提交，合同编号：873674677。',
