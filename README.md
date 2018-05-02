@@ -1,21 +1,17 @@
 # THSTrader
 量化交易。通用版同花顺客户端的python API。
 
+## 状态
+修改中.....
+
 ## 为什么有这个项目
-本来看到了这个[easytrader](https://github.com/shidenggui/easytrader)这个项目，不过不知道为什么跑着老崩。于是乎，自己看了一遍easytrader的源码，写了一个自己的版本。
+本来看到了这个[easytrader](https://github.com/shidenggui/easytrader)这个项目，不过这个客户端已经过时了(被强制更新)。于是乎，自己看了一遍easytrader的源码，写了一个自己的版本。
 
 
 ## 同花顺客户端
-### v8.60.64_20170215
-#### 说明
-代码在master分支。
-
-#### 客户端链接
-链接: https://pan.baidu.com/s/1hFLmLljhR6wOCKbTtcoDbw 密码: ng8q
-
 ### v8.70.32_20180202
 #### 说明
-代码在v8.70.32_20180202分支，这个版本的同花顺在复制数据时要输入验证码，这里用K最近邻算法进行识别，稳定性有待测量。
+这个版本的同花顺在复制数据时要输入验证码，这里用K最近邻算法进行识别。
 #### 客户端链接
 链接: https://pan.baidu.com/s/1wNLOqxQ1CYbl9X3nSsYGTw 密码: h2v3
 
