@@ -96,6 +96,9 @@ class THSTrader:
 
     def __select_menu(self, path):
         """ 点击左边菜单 """
+        if r"网上股票" not in self.app.top_window().window_text():
+            self.app.top_window().set_focus()
+            pywinauto.keyboard.SendKeys("{ENTER}")  
         self.__get_left_menus_handle().get_item(path).click()
 
     def __get_left_menus_handle(self):
