@@ -13,8 +13,8 @@
 ### 说明
 这个版本的同花顺在复制数据时要输入验证码，这里用K最近邻算法进行识别。
 ### 下载链接
-版本号：v8.70.32_20180202
-链接: https://pan.baidu.com/s/1wNLOqxQ1CYbl9X3nSsYGTw 密码: h2v3
+版本号：v8.70.42_20180426
+链接: https://pan.baidu.com/s/1Ugk4m7Lh1Hw-EXLXp3q5Uw 密码: r1ix
 
 
 ## 验证码重新训练

@@ -1,10 +1,10 @@
 import pywinauto
 from pywinauto import clipboard
 from pywinauto import keyboard
-from .captcha_recognize import captcha_recognize
+from captcha_recognize import captcha_recognize
 import pandas as pd
 import io
-from .const import BALANCE_CONTROL_ID_GROUP
+from const import BALANCE_CONTROL_ID_GROUP
 import time
 
 
@@ -69,12 +69,15 @@ class THSTrader:
         self.main_wnd.window(control_id=0x409, class_name="Edit").set_text(str(price))  # 设置价格
         self.main_wnd.window(control_id=0x40A, class_name="Edit").set_text(str(amount))  # 设置股数目
         time.sleep(1)
-        self.main_wnd.window(control_id=0x3EE, class_name="Button").click()   # 点击卖出
+        self.main_wnd.window(control_id=0x3EE, class_name="Button").click()   # 点击卖出or买入
         keyboard.SendKeys("{ENTER}")  
         time.sleep(1)
         self.app.top_window().set_focus()
+        time.sleep(1)
+        
+#        keyboard.SendKeys("{ENTER}") 
+        self.app.top_window().window(control_id=0x6, class_name='Button').click()  # 二次确认
         keyboard.SendKeys("y")  
-        #self.app.top_window().window(control_id=0x6, class_name='Button').click()  # 二次确认买入
         time.sleep(1)
         result = self.app.top_window().window(control_id=0x3EC, class_name='Static').window_text()
         try:
@@ -97,7 +100,7 @@ class THSTrader:
             CaptureAsImage().save(file_path)  # 保存验证码
 
         captcha_num = captcha_recognize(file_path)  # 识别验证码
-        print(captcha_num)
+        print("captcha result-->", captcha_num)
         self.app.top_window().window(control_id=0x964, class_name='Edit').set_text(captcha_num)  # 模拟输入验证码
         
         self.app.top_window().set_focus()
@@ -117,7 +120,8 @@ class THSTrader:
                 handle = self.main_wnd.window(control_id=129, class_name='SysTreeView32')
                 handle.wait('ready', 2)  # sometime can't find handle ready, must retry
                 return handle
-            except:
+            except Exception as ex:
+                print(ex)
                 pass
 
     def __cancel_by_double_click(self, row):
@@ -126,9 +130,15 @@ class THSTrader:
         y = 30 + 16 * row
         self.app.top_window().window(control_id=0x417, class_name='CVirtualGridCtrl').double_click(coords=(x, y))
         self.app.top_window().window(control_id=0x6, class_name='Button').click()  # 确定撤单
-        result = self.app.top_window().window(control_id=0x3EC, class_name='Static').window_text()
-        self.app.top_window().window(control_id=0x2, class_name='Button').click()  # 确定撤单
-        return self.__parse_result(result)
+        time.sleep(1)
+        if "网上股票交易系统5.0" not in self.app.top_window().window_text():
+            result = self.app.top_window().window(control_id=0x3EC, class_name='Static').window_text()
+            self.app.top_window().window(control_id=0x2, class_name='Button').click()  # 确定撤单
+            return self.__parse_result(result)
+        else:
+            return {
+                "success": True
+            }
 
     @staticmethod
     def __parse_result(result):
