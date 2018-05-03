@@ -1,4 +1,6 @@
 pywinauto
 numpy
 pandas
+scikit-learn
+pillow
 scipy

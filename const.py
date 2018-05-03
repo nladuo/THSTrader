@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """ 定义一些常量 """
 
 BALANCE_CONTROL_ID_GROUP = {

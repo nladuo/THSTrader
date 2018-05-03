@@ -9,12 +9,16 @@
 
 
 ## 同花顺客户端
-### v8.70.32_20180202
-#### 说明
+最新版同花顺客户端即可。
+### 说明
 这个版本的同花顺在复制数据时要输入验证码，这里用K最近邻算法进行识别。
-#### 客户端链接
+### 下载链接
+版本号：v8.70.32_20180202
 链接: https://pan.baidu.com/s/1wNLOqxQ1CYbl9X3nSsYGTw 密码: h2v3
 
+
+## 验证码重新训练
+详情请查看trader_test/captcha_break.ipynb。
 
 ## 操作接口（API）
 ### 说明
@@ -49,7 +53,7 @@ if __name__ == "__main__":
 trader.get_balance()
 ```
 返回：
-``` 
+```
 {
 	'资金余额': 198577.0,
 	'可用金额': 197264.69,
@@ -63,7 +67,7 @@ trader.get_balance()
 trader.get_balance()
 ```
 返回：
-``` 
+```
 [{
 	'证券代码': 2024,
 	'证券名称': '苏宁易购',
@@ -102,7 +106,7 @@ trader.get_balance()
 trader.buy(stock_no="162411", amount=100, price=0.541)
 ```
 返回：
-``` 
+```
 {
 	'success': True,
 	'msg': '您的买入委托已成功提交，合同编号：873674677。',
@@ -115,7 +119,7 @@ trader.buy(stock_no="162411", amount=100, price=0.541)
 trader.sell(stock_no="162411", amount=100, price=0.62)
 ```
 返回：
-``` 
+```
 {
 	'success': True,
 	'msg': '您的卖出委托已成功提交，合同编号：873679996。',
@@ -129,7 +133,7 @@ trader.sell(stock_no="162411", amount=100, price=0.62)
 trader.cancel_entrust(entrust_no="873674677")
 ```
 返回：
-``` 
+```
 {
 	'success': True,
 	'msg': '您的撤单委托已成功提交，合同编号：873674677。',

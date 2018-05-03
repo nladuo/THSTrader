@@ -1,7 +1,7 @@
-﻿# -*- coding: utf-8 -*-
-
 import pywinauto
 from pywinauto import clipboard
+from pywinauto import keyboard
+from .captcha_recognize import captcha_recognize
 import pandas as pd
 import io
 from .const import BALANCE_CONTROL_ID_GROUP
@@ -70,15 +70,17 @@ class THSTrader:
         self.main_wnd.window(control_id=0x40A, class_name="Edit").set_text(str(amount))  # 设置股数目
         time.sleep(1)
         self.main_wnd.window(control_id=0x3EE, class_name="Button").click()   # 点击卖出
-        pywinauto.keyboard.SendKeys("{ENTER}")  
+        keyboard.SendKeys("{ENTER}")  
         time.sleep(1)
         self.app.top_window().set_focus()
-        pywinauto.keyboard.SendKeys("y")  
+        keyboard.SendKeys("y")  
+        #self.app.top_window().window(control_id=0x6, class_name='Button').click()  # 二次确认买入
         time.sleep(1)
         result = self.app.top_window().window(control_id=0x3EC, class_name='Static').window_text()
         try:
             self.app.top_window().set_focus()
-            pywinauto.keyboard.SendKeys("{ENTER}")  
+            keyboard.SendKeys("{ENTER}")  
+            #self.app.top_window().window(control_id=0x2, class_name='Button').click()  # 确定买入成功的结果
         except:
             pass
         return self.__parse_result(result)
@@ -87,8 +89,19 @@ class THSTrader:
         """ 获取grid里面的数据 """
         grid = self.main_wnd.window(control_id=0x417, class_name='CVirtualGridCtrl')
 
-        grid.set_focus()
-        pywinauto.keyboard.SendKeys('^a^c')  # 模拟发送ctrl+A ctrl+C
+        grid.set_focus().right_click()  # 模拟右键
+        keyboard.SendKeys('c')  # 模拟发送C
+
+        file_path = "tmp.png"
+        self.app.top_window().window(control_id=0x965, class_name='Static').\
+            CaptureAsImage().save(file_path)  # 保存验证码
+
+        captcha_num = captcha_recognize(file_path)  # 识别验证码
+        print(captcha_num)
+        self.app.top_window().window(control_id=0x964, class_name='Edit').set_text(captcha_num)  # 模拟输入验证码
+        
+        self.app.top_window().set_focus()
+        keyboard.SendKeys("{ENTER}")   # 模拟发送enter，点击确定
 
         data = clipboard.GetData()
         df = pd.read_csv(io.StringIO(data), delimiter='\t', na_filter=False)
@@ -96,9 +109,6 @@ class THSTrader:
 
     def __select_menu(self, path):
         """ 点击左边菜单 """
-        if r"网上股票" not in self.app.top_window().window_text():
-            self.app.top_window().set_focus()
-            pywinauto.keyboard.SendKeys("{ENTER}")  
         self.__get_left_menus_handle().get_item(path).click()
 
     def __get_left_menus_handle(self):
@@ -115,11 +125,8 @@ class THSTrader:
         x = 50
         y = 30 + 16 * row
         self.app.top_window().window(control_id=0x417, class_name='CVirtualGridCtrl').double_click(coords=(x, y))
-        time.sleep(1)
         self.app.top_window().window(control_id=0x6, class_name='Button').click()  # 确定撤单
-        time.sleep(1)
         result = self.app.top_window().window(control_id=0x3EC, class_name='Static').window_text()
-        time.sleep(1)
         self.app.top_window().window(control_id=0x2, class_name='Button').click()  # 确定撤单
         return self.__parse_result(result)
 
@@ -142,4 +149,5 @@ class THSTrader:
             return {
                 "success": False,
                 "msg": result
-}
+            }
+
