@@ -20,16 +20,19 @@ class THSTrader:
     
     def buy(self, stock_no, price, amount):
         """ 买入 """
+        time.sleep(1)
         self.__select_menu(['买入[F1]'])
         return self.__trade(stock_no, price, amount)
 
     def sell(self, stock_no, price, amount):
         """ 卖出 """
+        time.sleep(1)
         self.__select_menu(['卖出[F2]'])
         return self.__trade(stock_no, price, amount)
 
     def cancel_entrust(self, entrust_no):
         """ 撤单 """
+        time.sleep(1)
         self.__select_menu(['撤单[F3]'])
         cancelable_entrusts = self.__get_grid_data()  # 获取可以撤单的条目
 
@@ -40,6 +43,7 @@ class THSTrader:
 
     def get_balance(self):
         """ 获取资金情况 """
+        time.sleep(1)
         self.__select_menu(['查询[F4]', '资金股票'])
 
         result = {}
@@ -51,15 +55,18 @@ class THSTrader:
 
     def get_position(self):
         """ 获取持仓 """
+        time.sleep(1)
         self.__select_menu(['查询[F4]', '资金股票'])
         return self.__get_grid_data()
 
     def get_today_entrusts(self):
         """ 获取当日委托 """
+        time.sleep(1)
         self.__select_menu(['查询[F4]', '当日委托'])
         return self.__get_grid_data()
 
     def get_today_trades(self):
+        time.sleep(1)
         self.__select_menu(['查询[F4]', '当日成交'])
         return self.__get_grid_data()
 
