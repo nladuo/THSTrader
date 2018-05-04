@@ -1,5 +1,5 @@
 # THSTrader
-量化交易。最新版通用版同花顺客户端的python API。
+量化交易。最新版通用版同花顺客户端的python API。(Python3)
 
 ## 状态
 稳定性测试中.....
