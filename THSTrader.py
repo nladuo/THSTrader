@@ -52,6 +52,21 @@ class THSTrader:
                 self.main_wnd.window(control_id=control_id, class_name='Static').window_text()
             )
         return result
+    
+    def check_trade_finished(self, entrust_no):
+        """ 判断订单是否完成 """
+        time.sleep(1)
+        self.__select_menu(['卖出[F2]'])
+        time.sleep(1)
+        self.__select_menu(['撤单[F3]'])
+        cancelable_entrusts = self.__get_grid_data()
+#        print(cancelable_entrusts)
+        for i, entrust in enumerate(cancelable_entrusts):
+            if str(entrust["合同编号"]) == str(entrust_no):  # 如果订单未完成，就意味着可以撤单
+                if entrust["成交数量"] == 0:
+                    return False
+        return True
+    
 
     def get_position(self):
         """ 获取持仓 """
