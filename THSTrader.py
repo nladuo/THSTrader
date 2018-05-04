@@ -1,10 +1,10 @@
 import pywinauto
 from pywinauto import clipboard
 from pywinauto import keyboard
-from captcha_recognize import captcha_recognize
+from .captcha_recognize import captcha_recognize
 import pandas as pd
 import io
-from const import BALANCE_CONTROL_ID_GROUP
+from .const import BALANCE_CONTROL_ID_GROUP
 import time
 
 

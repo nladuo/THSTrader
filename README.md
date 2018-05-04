@@ -1,8 +1,12 @@
 # THSTrader
-量化交易。通用版同花顺客户端的python API。
+量化交易。最新版通用版同花顺客户端的python API。
 
 ## 状态
-修改中.....
+稳定性测试中.....
+
+## 未知的BUG
+- 在某些电脑上面验证码截图失效导致无法使用（该问题出现在我苹果电脑上面装的windows虚拟机）
+
 
 ## 为什么有这个项目
 本来看到了这个[easytrader](https://github.com/shidenggui/easytrader)这个项目，不过这个客户端已经过时了(被强制更新)。于是乎，自己看了一遍easytrader的源码，写了一个自己的版本。
