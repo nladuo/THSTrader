@@ -68,7 +68,7 @@ trader.get_balance()
 ```
 ### 获取当前持有的股票
 ``` python
-trader.get_balance()
+trader.get_position()
 ```
 返回：
 ```
