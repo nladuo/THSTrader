@@ -32,7 +32,7 @@
 
 ### 示例代码
 ``` python
-from THSTrader.THSTrader import THSTrader
+from THS.THSTrader import THSTrader
 
 
 if __name__ == "__main__":
