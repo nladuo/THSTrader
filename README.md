@@ -1,8 +1,8 @@
 # THSTrader
-量化交易。最新版通用版同花顺客户端的python API。(Python3)
+量化交易。通用版同花顺客户端的python API。(Python3)
 
 ## 状态
-稳定性测试中.....
+由于同花顺软件更新暂时无法使用，代码重构中....
 
 ## 未知的BUG
 - 在某些电脑上面验证码截图失效导致无法使用（该问题出现在我苹果电脑上面装的windows虚拟机）
@@ -12,21 +12,19 @@
 本来看到了这个[easytrader](https://github.com/shidenggui/easytrader)这个项目，不过这个客户端已经过时了(被强制更新)。于是乎，自己看了一遍easytrader的源码，写了一个自己的版本。
 
 
-## 同花顺客户端
-最新版同花顺客户端即可。
+## 同花顺客户端安装
 ### 说明
 这个版本的同花顺在复制数据时要输入验证码，这里用K最近邻算法进行识别。
 ### 下载链接
 版本号：v8.70.42_20180426
 链接: https://pan.baidu.com/s/1Ugk4m7Lh1Hw-EXLXp3q5Uw 密码: r1ix
 
-
 ## 验证码重新训练
 详情请查看trader_test/captcha_break.ipynb。
 
 ## 操作接口（API）
 ### 说明
-首先登陆同花顺客户端，然后打开下单程序。
+首先登陆同花顺客户端，然后**打开下单程序**。
 
 **注意：使用过程中请保证下单程序处于可视状态，不要最小化同花顺客户端。**
 
@@ -71,7 +69,7 @@ trader.get_balance()
 trader.get_position()
 ```
 返回：
-```
+```  json
 [{
 	'证券代码': 2024,
 	'证券名称': '苏宁易购',
@@ -110,7 +108,7 @@ trader.get_position()
 trader.buy(stock_no="162411", amount=100, price=0.541)
 ```
 返回：
-```
+``` json
 {
 	'success': True,
 	'msg': '您的买入委托已成功提交，合同编号：873674677。',
@@ -123,7 +121,7 @@ trader.buy(stock_no="162411", amount=100, price=0.541)
 trader.sell(stock_no="162411", amount=100, price=0.62)
 ```
 返回：
-```
+``` json
 {
 	'success': True,
 	'msg': '您的卖出委托已成功提交，合同编号：873679996。',
@@ -137,7 +135,7 @@ trader.sell(stock_no="162411", amount=100, price=0.62)
 trader.cancel_entrust(entrust_no="873674677")
 ```
 返回：
-```
+``` json
 {
 	'success': True,
 	'msg': '您的撤单委托已成功提交，合同编号：873674677。',

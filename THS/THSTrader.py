@@ -115,7 +115,15 @@ class THSTrader:
         grid = self.main_wnd.window(control_id=0x417, class_name='CVirtualGridCtrl')
 
         grid.set_focus().right_click()  # 模拟右键
-        keyboard.SendKeys('c')  # 模拟发送C
+        #keyboard.SendKeys('c')  # 模拟发送C
+        
+        keyboard.SendKeys('{DOWN}')
+        time.sleep(0.1)
+        keyboard.SendKeys('{DOWN}')
+        time.sleep(0.1)
+        keyboard.SendKeys('{DOWN}')
+        time.sleep(0.1)
+        keyboard.SendKeys("{ENTER}")
 
         file_path = "tmp.png"
         self.app.top_window().window(control_id=0x965, class_name='Static').\
