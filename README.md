@@ -69,7 +69,7 @@ trader.get_balance()
 trader.get_position()
 ```
 返回：
-```  json
+```
 [{
 	'证券代码': 2024,
 	'证券名称': '苏宁易购',
@@ -108,7 +108,7 @@ trader.get_position()
 trader.buy(stock_no="162411", amount=100, price=0.541)
 ```
 返回：
-``` json
+```
 {
 	'success': True,
 	'msg': '您的买入委托已成功提交，合同编号：873674677。',
@@ -121,7 +121,7 @@ trader.buy(stock_no="162411", amount=100, price=0.541)
 trader.sell(stock_no="162411", amount=100, price=0.62)
 ```
 返回：
-``` json
+```
 {
 	'success': True,
 	'msg': '您的卖出委托已成功提交，合同编号：873679996。',
@@ -135,7 +135,7 @@ trader.sell(stock_no="162411", amount=100, price=0.62)
 trader.cancel_entrust(entrust_no="873674677")
 ```
 返回：
-``` json
+```
 {
 	'success': True,
 	'msg': '您的撤单委托已成功提交，合同编号：873674677。',
