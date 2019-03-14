@@ -20,7 +20,7 @@
 链接: https://pan.baidu.com/s/1Ugk4m7Lh1Hw-EXLXp3q5Uw 密码: r1ix
 
 ### tesseract-ocr安装
-首先下载Tesseract软件：https://digi.bib.uni-mannheim.de/tesseract/，并把tesseract添加到系统path中。
+首先下载Tesseract软件：[https://digi.bib.uni-mannheim.de/tesseract/](https://digi.bib.uni-mannheim.de/tesseract/)，并把tesseract添加到系统path中。
 
 ### python环境安装
 ``` bash
