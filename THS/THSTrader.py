@@ -34,7 +34,7 @@ class THSTrader:
         """ 撤单 """
         time.sleep(1)
         self.__select_menu(['撤单[F3]'])
-        cancelable_entrusts = self.__get_grid_data()  # 获取可以撤单的条目
+        cancelable_entrusts = self.__get_grid_data(is_entrust=True)  # 获取可以撤单的条目
 
         for i, entrust in enumerate(cancelable_entrusts):
             if str(entrust["合同编号"]) == str(entrust_no):  # 对指定合同进行撤单
@@ -59,7 +59,7 @@ class THSTrader:
         self.__select_menu(['卖出[F2]'])
         time.sleep(1)
         self.__select_menu(['撤单[F3]'])
-        cancelable_entrusts = self.__get_grid_data()
+        cancelable_entrusts = self.__get_grid_data(is_entrust=True)
 #        print(cancelable_entrusts)
         for i, entrust in enumerate(cancelable_entrusts):
             if str(entrust["合同编号"]) == str(entrust_no):  # 如果订单未完成，就意味着可以撤单
@@ -86,39 +86,37 @@ class THSTrader:
         return self.__get_grid_data()
 
     def __trade(self, stock_no, price, amount):
-        time.sleep(1)
+        time.sleep(0.2)
         self.main_wnd.window(control_id=0x408, class_name="Edit").set_text(str(stock_no))  # 设置股票代码
         self.main_wnd.window(control_id=0x409, class_name="Edit").set_text(str(price))  # 设置价格
         self.main_wnd.window(control_id=0x40A, class_name="Edit").set_text(str(amount))  # 设置股数目
-        time.sleep(1)
+        time.sleep(0.2)
         self.main_wnd.window(control_id=0x3EE, class_name="Button").click()   # 点击卖出or买入
-        keyboard.SendKeys("{ENTER}")  
-        time.sleep(1)
-        self.app.top_window().set_focus()
-        time.sleep(1)
         
-#        keyboard.SendKeys("{ENTER}") 
-        self.app.top_window().window(control_id=0x6, class_name='Button').click()  # 二次确认
-        keyboard.SendKeys("y")  
-        time.sleep(1)
+        time.sleep(0.2)
+        self.app.top_window().window(control_id=0x6, class_name='Button').click()  # 确定买入
+        self.app.top_window().set_focus()
+        time.sleep(0.2)
         result = self.app.top_window().window(control_id=0x3EC, class_name='Static').window_text()
+        self.app.top_window().set_focus()
+        time.sleep(0.2)
         try:
-            self.app.top_window().set_focus()
-            keyboard.SendKeys("{ENTER}")  
-            #self.app.top_window().window(control_id=0x2, class_name='Button').click()  # 确定买入成功的结果
+            self.app.top_window().window(control_id=0x2, class_name='Button').click()  # 确定
         except:
             pass
+        
+        
         return self.__parse_result(result)
 
-    def __get_grid_data(self):
+    def __get_grid_data(self, is_entrust=False):
         """ 获取grid里面的数据 """
         grid = self.main_wnd.window(control_id=0x417, class_name='CVirtualGridCtrl')
 
         grid.set_focus().right_click()  # 模拟右键
-        #keyboard.SendKeys('c')  # 模拟发送C
         
-        keyboard.SendKeys('{DOWN}')
-        time.sleep(0.1)
+        if not is_entrust:
+            keyboard.SendKeys('{DOWN}')
+            time.sleep(0.1)
         keyboard.SendKeys('{DOWN}')
         time.sleep(0.1)
         keyboard.SendKeys('{DOWN}')
@@ -126,15 +124,22 @@ class THSTrader:
         keyboard.SendKeys("{ENTER}")
 
         file_path = "tmp.png"
-        self.app.top_window().window(control_id=0x965, class_name='Static').\
-            CaptureAsImage().save(file_path)  # 保存验证码
-
-        captcha_num = captcha_recognize(file_path)  # 识别验证码
-        print("captcha result-->", captcha_num)
-        self.app.top_window().window(control_id=0x964, class_name='Edit').set_text(captcha_num)  # 模拟输入验证码
         
-        self.app.top_window().set_focus()
-        keyboard.SendKeys("{ENTER}")   # 模拟发送enter，点击确定
+        while True:
+            self.app.top_window().window(control_id=0x965, class_name='Static').\
+                CaptureAsImage().save(file_path)  # 保存验证码
+    
+            captcha_num = captcha_recognize(file_path)  # 识别验证码
+            print("captcha result-->", captcha_num)
+            self.app.top_window().window(control_id=0x964, class_name='Edit').set_text(captcha_num)  # 模拟输入验证码
+            
+            self.app.top_window().set_focus()
+            keyboard.SendKeys("{ENTER}")   # 模拟发送enter，点击确定
+            try:
+                print(self.app.top_window().window(control_id=0x966, class_name='Static').window_text())
+            except:
+                break
+            time.sleep(0.1)
 
         data = clipboard.GetData()
         df = pd.read_csv(io.StringIO(data), delimiter='\t', na_filter=False)
@@ -163,7 +168,7 @@ class THSTrader:
         y = 30 + 16 * row
         self.app.top_window().window(control_id=0x417, class_name='CVirtualGridCtrl').double_click(coords=(x, y))
         self.app.top_window().window(control_id=0x6, class_name='Button').click()  # 确定撤单
-        time.sleep(1)
+        time.sleep(0.1)
         if "网上股票交易系统5.0" not in self.app.top_window().window_text():
             result = self.app.top_window().window(control_id=0x3EC, class_name='Static').window_text()
             self.app.top_window().window(control_id=0x2, class_name='Button').click()  # 确定撤单

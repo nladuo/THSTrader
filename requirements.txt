@@ -4,3 +4,4 @@ pandas==0.23.0
 scikit-learn==0.20.2
 pillow==5.1.0
 scipy==1.1.0
+pytesseract==0.2.6

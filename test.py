@@ -11,9 +11,9 @@ if __name__ == "__main__":
 
     print(trader.get_position())                           # 获取当前持有的股票
 
-    print(trader.sell(stock_no="162411", amount=100, price=0.62))  # 卖出股票
+    print(trader.sell(stock_no="162411", amount=100, price=0.51))  # 卖出股票
 
-    result = trader.buy(stock_no="162411", amount=100, price=0.541) # 买入股票
+    result = trader.buy(stock_no="162411", amount=100, price=0.49) # 买入股票
     print(result)
 
     if result["success"] == True:						   # 如果买入下单成功，尝试撤单
