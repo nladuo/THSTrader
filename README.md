@@ -25,6 +25,8 @@ pip3 install -r requirements.txt
 ```
 
 ## 操作接口（API）
+操作演示视频见：[https://www.bilibili.com/video/av46248487/](https://www.bilibili.com/video/av46248487/)
+
 ### 说明
 首先登陆同花顺客户端，然后**打开下单程序**。
 

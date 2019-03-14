@@ -110,8 +110,9 @@ class THSTrader:
 
     def __get_grid_data(self, is_entrust=False):
         """ 获取grid里面的数据 """
+        time.sleep(0.1)
         grid = self.main_wnd.window(control_id=0x417, class_name='CVirtualGridCtrl')
-
+        time.sleep(0.1)
         grid.set_focus().right_click()  # 模拟右键
         
         if not is_entrust:
@@ -122,6 +123,7 @@ class THSTrader:
         keyboard.SendKeys('{DOWN}')
         time.sleep(0.1)
         keyboard.SendKeys("{ENTER}")
+        time.sleep(1)
 
         file_path = "tmp.png"
         
