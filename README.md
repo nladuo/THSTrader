@@ -17,7 +17,8 @@ pip3 install -r requirements.txt
 ```
 
 ## 操作接口（API）
-操作演示视频见：[https://www.bilibili.com/video/av46248487/](https://www.bilibili.com/video/av46248487/)暂时还未更新
+操作演示视频见：[https://www.bilibili.com/video/av46248487/](https://www.bilibili.com/video/av46248487/)
+同花顺的安装使用方法：见视频的2p。
 
 ### 说明
 首先登陆同花顺客户端下载委托程序，下载完退出同花顺客户端，只**打开下单程序**。
@@ -30,7 +31,7 @@ from THS.THSTrader import THSTrader
 
 
 if __name__ == "__main__":
-    trader = THSTrader(r"C:\同花顺软件\同花顺免费模拟炒股软件\weituo\模拟炒股\xiadan.exe")    # 连接客户端
+    trader = THSTrader(r"C:\同花顺软件\weituo\模拟炒股\xiadan.exe")    # 连接客户端
 
     print(trader.get_balance())                            # 获取当前可用资金
 
@@ -57,6 +58,7 @@ trader.get_balance()
 	'股票市值': 2869.4,
 }
 ```
+> ** 注意：这里总资产并不是可用余额+股票市值，有一些资金可能代表未成交的金额。 **
 ### 获取当前持有的股票
 ``` python
 trader.get_position()

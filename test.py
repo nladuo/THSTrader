@@ -4,7 +4,7 @@ from THS.THSTrader import THSTrader
 import time
 
 if __name__ == "__main__":
-    trader = THSTrader(r"C:\同花顺软件\同花顺免费模拟炒股软件\weituo\模拟炒股\xiadan.exe")    # 连接客户端
+    trader = THSTrader(r"C:\同花顺软件\weituo\模拟炒股\xiadan.exe")    # 连接客户端
 
     print(trader.get_balance())                            # 获取当前可用资金
 
