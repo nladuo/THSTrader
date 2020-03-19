@@ -46,7 +46,7 @@ class THSTrader:
         time.sleep(0.5)
         self.__select_menu([4])
         result = {
-            "资金余额": self.main_wnd .window(control_id=0x40E, class_name='Static').window_text()
+            "可用余额": self.main_wnd .window(control_id=0x40E, class_name='Static').window_text()
         }
         time.sleep(0.5)
         self.__select_menu([0])
