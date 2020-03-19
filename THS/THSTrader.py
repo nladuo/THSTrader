@@ -1,10 +1,9 @@
 import pywinauto
 from pywinauto import clipboard
 from pywinauto import keyboard
-from .captcha_recognize import captcha_recognize
+# from .captcha_recognize import captcha_recognize
 import pandas as pd
 import io
-from .const import BALANCE_CONTROL_ID_GROUP
 import time
 
 
@@ -15,9 +14,7 @@ class THSTrader:
         self.app = pywinauto.Application().connect(path=exe_path, timeout=10)
         print("连接成功!!!")
         self.main_wnd = self.app.top_window()
-    
-    
-    
+
     def buy(self, stock_no, price, amount):
         """ 买入 """
         time.sleep(1)
@@ -33,8 +30,11 @@ class THSTrader:
     def cancel_entrust(self, entrust_no):
         """ 撤单 """
         time.sleep(1)
-        self.__select_menu(['撤单[F3]'])
-        cancelable_entrusts = self.__get_grid_data(is_entrust=True)  # 获取可以撤单的条目
+        self.__select_menu([1])
+        self.__select_switch_tab("r")
+
+        cancelable_entrusts = self.__get_grid_data()  # 获取可以撤单的条目
+        # print(cancelable_entrusts)
 
         for i, entrust in enumerate(cancelable_entrusts):
             if str(entrust["合同编号"]) == str(entrust_no):  # 对指定合同进行撤单
@@ -43,21 +43,23 @@ class THSTrader:
 
     def get_balance(self):
         """ 获取资金情况 """
-        time.sleep(1)
-        self.__select_menu(['查询[F4]', '资金股票'])
-
-        result = {}
-        for key, control_id in BALANCE_CONTROL_ID_GROUP.items():
-            result[key] = float(
-                self.main_wnd.window(control_id=control_id, class_name='Static').window_text()
-            )
+        time.sleep(0.5)
+        self.__select_menu([4])
+        result = {
+            "资金余额": self.main_wnd .window(control_id=0x40E, class_name='Static').window_text()
+        }
+        time.sleep(0.5)
+        self.__select_menu([0])
+        self.__select_switch_tab("w")
+        df = self.__get_grid_data(is_records=False)
+        result["股票市值"] = df["市值"].sum()
         return result
     
     def check_trade_finished(self, entrust_no):
         """ 判断订单是否完成 """
-        time.sleep(1)
+        time.sleep(0.5)
         self.__select_menu(['卖出[F2]'])
-        time.sleep(1)
+        time.sleep(0.5)
         self.__select_menu(['撤单[F3]'])
         cancelable_entrusts = self.__get_grid_data(is_entrust=True)
 #        print(cancelable_entrusts)
@@ -66,86 +68,72 @@ class THSTrader:
                 if entrust["成交数量"] == 0:
                     return False
         return True
-    
 
     def get_position(self):
         """ 获取持仓 """
-        time.sleep(1)
-        self.__select_menu(['查询[F4]', '资金股票'])
+        time.sleep(0.5)
+        self.__select_menu([0])
+        self.__select_switch_tab("w")
         return self.__get_grid_data()
 
     def get_today_entrusts(self):
         """ 获取当日委托 """
-        time.sleep(1)
-        self.__select_menu(['查询[F4]', '当日委托'])
+        time.sleep(0.5)
+        self.__select_menu([0])
+        self.__select_switch_tab("r")
         return self.__get_grid_data()
 
     def get_today_trades(self):
-        time.sleep(1)
-        self.__select_menu(['查询[F4]', '当日成交'])
+        """ 获取当日成交"""
+        time.sleep(0.5)
+        self.__select_menu([0])
+        self.__select_switch_tab("e")
         return self.__get_grid_data()
 
     def __trade(self, stock_no, price, amount):
-        time.sleep(0.2)
+        time.sleep(0.5)
         self.main_wnd.window(control_id=0x408, class_name="Edit").set_text(str(stock_no))  # 设置股票代码
         self.main_wnd.window(control_id=0x409, class_name="Edit").set_text(str(price))  # 设置价格
         self.main_wnd.window(control_id=0x40A, class_name="Edit").set_text(str(amount))  # 设置股数目
-        time.sleep(0.2)
+        time.sleep(0.5)
         self.main_wnd.window(control_id=0x3EE, class_name="Button").click()   # 点击卖出or买入
-        
-        time.sleep(0.2)
+
+        time.sleep(0.5)
+        self.app.top_window().set_focus()
         self.app.top_window().window(control_id=0x6, class_name='Button').click()  # 确定买入
+
+        time.sleep(0.5)
         self.app.top_window().set_focus()
-        time.sleep(0.2)
         result = self.app.top_window().window(control_id=0x3EC, class_name='Static').window_text()
+
+        time.sleep(0.5)
         self.app.top_window().set_focus()
-        time.sleep(0.2)
         try:
             self.app.top_window().window(control_id=0x2, class_name='Button').click()  # 确定
         except:
             pass
-        
-        
         return self.__parse_result(result)
 
-    def __get_grid_data(self, is_entrust=False):
+    def __get_grid_data(self, is_records=True):
         """ 获取grid里面的数据 """
-        time.sleep(0.1)
+        self.__click_update_button()
+        time.sleep(0.5)
         grid = self.main_wnd.window(control_id=0x417, class_name='CVirtualGridCtrl')
-        time.sleep(0.1)
-        grid.set_focus().right_click()  # 模拟右键
-        
-        if not is_entrust:
-            keyboard.SendKeys('{DOWN}')
-            time.sleep(0.1)
-        keyboard.SendKeys('{DOWN}')
-        time.sleep(0.1)
-        keyboard.SendKeys('{DOWN}')
-        time.sleep(0.1)
-        keyboard.SendKeys("{ENTER}")
-        time.sleep(1)
-
-        file_path = "tmp.png"
-        
-        while True:
-            self.app.top_window().window(control_id=0x965, class_name='Static').\
-                CaptureAsImage().save(file_path)  # 保存验证码
-    
-            captcha_num = captcha_recognize(file_path)  # 识别验证码
-            print("captcha result-->", captcha_num)
-            self.app.top_window().window(control_id=0x964, class_name='Edit').set_text(captcha_num)  # 模拟输入验证码
-            
-            self.app.top_window().set_focus()
-            keyboard.SendKeys("{ENTER}")   # 模拟发送enter，点击确定
-            try:
-                print(self.app.top_window().window(control_id=0x966, class_name='Static').window_text())
-            except:
-                break
-            time.sleep(0.1)
-
+        grid.set_focus()
+        time.sleep(0.5)
+        pywinauto.keyboard.SendKeys('^c')
         data = clipboard.GetData()
         df = pd.read_csv(io.StringIO(data), delimiter='\t', na_filter=False)
-        return df.to_dict('records')
+        if is_records:
+            return df.to_dict('records')
+        else:
+            return df
+
+    def __select_switch_tab(self, key):
+        self.main_wnd.set_focus()
+        time.sleep(0.5)
+        pywinauto.keyboard.SendKeys(f'+{key}')
+        time.sleep(0.5)
 
     def __select_menu(self, path):
         """ 点击左边菜单 """
@@ -164,10 +152,13 @@ class THSTrader:
                 print(ex)
                 pass
 
+    def __click_update_button(self):
+        self.app.top_window().window(control_id=0x8016, class_name='Button').click()
+
     def __cancel_by_double_click(self, row):
         """ 通过双击撤单 """
         x = 50
-        y = 30 + 16 * row
+        y = 50 + 20 * row
         self.app.top_window().window(control_id=0x417, class_name='CVirtualGridCtrl').double_click(coords=(x, y))
         self.app.top_window().window(control_id=0x6, class_name='Button').click()  # 确定撤单
         time.sleep(0.1)

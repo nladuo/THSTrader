@@ -1,23 +1,15 @@
 # THSTrader
-量化交易。通用版同花顺客户端的python API。(Python3)
+量化交易。同花顺免费模拟炒股软件客户端的python API。(Python3)
 
 ## 为什么有这个项目
 本来看到了这个[easytrader](https://github.com/shidenggui/easytrader)这个项目，不过这个客户端已经过时了(被强制更新)。于是乎，自己看了一遍easytrader的源码，写了一个自己的版本。
 
-
-## 未知的BUG
-- 在某些电脑上面验证码截图失效导致无法使用（该问题出现在我苹果电脑上面装的windows虚拟机）
-
-
 ## 安装说明
-
-### 同花顺客户端安装
+### 同花顺免费模拟炒股软件客户端安装
 #### 下载链接
-版本号：v8.70.42_20180426
-链接: https://pan.baidu.com/s/1Ugk4m7Lh1Hw-EXLXp3q5Uw 密码: r1ix
-
-### tesseract-ocr安装
-首先下载Tesseract软件：[https://digi.bib.uni-mannheim.de/tesseract/](https://digi.bib.uni-mannheim.de/tesseract/)，并把tesseract添加到系统path中。
+这个版本是模拟炒股软件，但是可以添加不同券商的委托下单程序，是2015年更新的。
+版本号：v8.10.44_20151010.
+链接：https://pan.baidu.com/s/1H2rIxWZwBx-LuiFlXzc5Jg 提取码：5b15
 
 ### python环境安装
 ``` bash
@@ -25,12 +17,12 @@ pip3 install -r requirements.txt
 ```
 
 ## 操作接口（API）
-操作演示视频见：[https://www.bilibili.com/video/av46248487/](https://www.bilibili.com/video/av46248487/)
+操作演示视频见：[https://www.bilibili.com/video/av46248487/](https://www.bilibili.com/video/av46248487/)暂时还未更新
 
 ### 说明
-首先登陆同花顺客户端，然后**打开下单程序**。
+首先登陆同花顺客户端下载委托程序，下载完退出同花顺客户端，只**打开下单程序**。
 
-**注意：使用过程中请保证下单程序处于可视状态，不要最小化同花顺客户端。**
+**注意：使用过程中请保证下单程序处于可视状态，不要最小化客户端。**
 
 ### 示例代码
 ``` python
@@ -38,7 +30,7 @@ from THS.THSTrader import THSTrader
 
 
 if __name__ == "__main__":
-    trader = THSTrader(r"C:\同花顺软件\同花顺\xiadan.exe")    # 连接客户端
+    trader = THSTrader(r"C:\同花顺软件\同花顺免费模拟炒股软件\weituo\模拟炒股\xiadan.exe")    # 连接客户端
 
     print(trader.get_balance())                            # 获取当前可用资金
 
