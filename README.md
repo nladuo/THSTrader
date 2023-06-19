@@ -1,5 +1,5 @@
 # THSTrader
-量化交易工具。同花顺手机版模拟炒股python API，基于uiautomator2和图色方法实现。
+量化交易工具。同花顺手机版模拟炒股python API，基于uiautomator2和图色方法实现。【可自行扩展到实盘，见最后】
 
 
 ## 为什么有这个项目
@@ -173,6 +173,12 @@ trader.withdraw(stock_name="中国银行", t="买入", amount=300, price=3.94)
 	'success': True,
 }
 ```
+
+
+## 实盘
+经过群友测试，可以使用实盘，可以使用uiautomator2+weditor然后筛选元素，修改`THSTrader.__back_to_moni_page`。
+![](assets/shipan.png)
+
 
 ## 交流群
 更新可能没那么及时这里提供一个交流群。群号：562639692（2群），399623752(1群已满)
